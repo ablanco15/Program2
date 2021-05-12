@@ -1,0 +1,137 @@
+//TALLER NUMERO 1
+
+#include<stdio.h>
+#include<stdbool.h>
+#include<cstdlib>
+#include"LibreriaTaller.h"
+#include <locale.h>		//Esta libreria nos permite usar la funcion setlocale, funcion que nos permite usar la "ñ"
+//*****************************************
+void Encabezado();
+void PantallaPrincipal();
+void PedirDatos(int *ano_actual, int *mes_actual, int *dia_actual, int *ano, int *mes, int *dia, int Meses[]);
+//*****************************************
+int main(){
+	
+	setlocale(LC_ALL, "spanish");
+	
+	int ano, ano_actual, mes, mes_actual, dia, dia_actual,control,opcion=0;
+								//(ano,mes,dia) = Fecha de nacimiento
+								//(ano_actual,mes_actual,dia_actual) = Fecha del dia en que usas el programa
+	int Meses[12];  			//Este es un vector donde cada elemento sera un mes, asi sabremos cuantos dias hay por mes
+	int signo[12];  			//Este es un vector donde cada elemento sera un signo zodiacal 
+	EstablecerMeses(Meses); 	//Se le otorgan los dias que tiene cada mes
+	PantallaPrincipal();		//Mostramos la pantalla principal del programa
+	system("pause");
+	system("cls");
+	
+	while(opcion<1 or opcion>3){		//Entramos al menu
+			Encabezado();
+			printf("\n\n\n      MENU.");
+			printf("\n\n       0) Volver a la pantalla principal.");	//Volvemos a la pantalla principal del programa
+			printf("\n       1) Dar datos.");							//El programa recibe la fecha del dia actual y la fecha de nacimiento del individuo
+			printf("\n       2) Mostrar resultado.");					//Con los datos introducidos anteriormente se hacen los calculos necesarios
+			printf("\n       3) Salir del programa.");								
+			printf("\n       *");
+			scanf("%i",&opcion);
+			system("cls");
+			switch(opcion){
+				case 0:{
+						PantallaPrincipal();
+						system("pause");
+						system("cls");
+					break;
+				}
+				case 1:{
+						PedirDatos(&ano_actual,&mes_actual,&dia_actual,&ano,&mes,&dia,Meses);	//Se piden los datos
+						EstablecerMeses(Meses);													//De ser modificado los dias que tiene el mes de Feb (por año bisiesto) se reiniaia y vuelve a 28 dias
+						SignosDeZodiaco(signo);													//Como se esta dando unos nuevos datos se reinician estos valores para que todos empiecen en false (0)
+						opcion=-1;
+					break;
+				}
+				case 2:{
+						Encabezado();
+						printf("\n\n\n       Desde (%i/%i/%i) hasta (%i/%i/%i).",dia,mes,ano,dia_actual,mes_actual,ano_actual);
+						printf("\n       Usted ha estado %i dias en esta vida.", DiasDeVida(ano_actual,mes_actual,dia_actual,ano,mes,dia,Meses)); //La funcion DiasDeVida es la realiza los calculos
+						Zodiaco(mes-1,dia,signo);																								  //Se determina su signo zodiacal
+						MostrarSigno(signo);																									  //Se muestra su signo zodiacal
+						printf("\n\n       ");
+						system("pause");
+						system("cls");			
+						opcion=-1;
+					break;
+				}
+			
+			}
+	
+	}
+					
+	return 0;
+}
+//-----------------------------------------------------------------
+void PedirDatos(int *ano_actual, int *mes_actual, int *dia_actual, int *ano, int *mes, int *dia, int Meses[]){
+	
+	do{
+		Encabezado();
+		printf("\n\n\n          Introduzca la fecha actual: ");
+		printf("\n\n          Año: ");
+		scanf("%i",ano_actual);
+		printf("          Mes: ");
+		scanf("%i",mes_actual);
+		printf("          Dia: ");
+		scanf("%i",dia_actual);
+		system("cls");
+			if(Bisiesto(*ano_actual)==true){			//En caso de que el año actual sea bisiesto se abre la posibilidad de que el dia se 29 de febrero
+				Meses[1]=29;
+			}
+			else{										//Si el año no es bisiesto significa que el dia maximo de febrero es 28
+				Meses[1]=28;
+			}	
+	}while(*ano_actual<=0 or *mes_actual>12 or *mes_actual<=0 or *dia_actual>Meses[*mes_actual-1] or *dia_actual<=0);
+	//Condiciones: El año no puede ser negativo. El mes no puede ser mayor que 12 (diciembre).El mes actual no puede ser menor que 1 (Enero).No se puede poner mas dias de los que tiene un mes. Los dias no pueden ser negativos
+
+
+	do{
+		Encabezado();
+		printf("\n\n\n          Introduzca la fecha de su nacimiento: ");
+		printf("\n\n          Año: ");
+		scanf("%i",ano);
+		printf("          Mes: ");
+		scanf("%i",mes);
+		printf("          Dia: ");
+		scanf("%i",dia);
+		system("cls");
+			if(Bisiesto(*ano)==true){
+				Meses[1]=29;
+			}
+			else{
+				Meses[1]=28;
+			}
+	}while(*ano<=0 or *ano>*ano_actual or *mes>12 or *mes<=0 or *dia>Meses[*mes-1] or *dia<=0);	
+	//En este caso serian las mismas condiciones con la adicion de que: el año de nacimiento no puede ser mayor al año actual
+}
+//-----------------------------------------------------------------
+void Encabezado(){
+	printf("\n\n   ------------------------------------------------   ");
+	printf("\n   -------- Taller Numero uno de Program 2 --------");
+	printf("\n   ------------------------------------------------");
+}
+//-----------------------------------------------------------------
+void PantallaPrincipal(){
+	printf("\n\n   ------------------------------------------------   ");
+	printf("\n   -------- Taller Numero uno de Program 2---------   ");
+	printf("\n   ------------------------------------------------   ");
+	printf("\n   ------------------------------------------------   ");
+	printf("\n   --------------- Calcular -----------------------   ");
+	printf("\n   ---------------------- Años --------------------   ");
+	printf("\n   ------------------------- de -------------------   ");
+	printf("\n   -------------------- Vida ----------------------   ");
+	printf("\n   ------------------------------------------------   ");
+	printf("\n   ------------------------------------------------   ");
+	printf("\n   -------------------------- Realizado por:-------   ");
+	printf("\n   ---------------------------- Blanco Alfonso-----   ");
+	printf("\n   ---------------------------- Borges Sebastian---   ");
+	printf("\n   ------------------------------------------------   ");
+	printf("\n   ");
+
+
+}
