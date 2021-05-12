@@ -1,0 +1,290 @@
+#include<stdio.h>
+#include<stdbool.h>
+#include<cstdlib>
+#include <locale.h>
+
+//***********************
+int DiasDeVida(int ano_actual, int mes_actual, int dia_actual, int ano, int mes, int dia, int Meses[]);
+	int NacimientoHastaActualidad(int ano_actual, int ano);
+	int AnoNacimiento(int ano, int mes, int dia, int Meses[]);	
+	int AnoActual(int ano_actual, int mes_actual, int dia_actual, int Meses[]);	
+	
+bool Bisiesto(int ano);
+
+bool EstablecerMeses(int Meses[]);
+
+void SignosDeZodiaco(int Signos[]);
+
+void Zodiaco(int mes, int dia, int Signo[]);
+//***********************
+
+
+
+
+//-----------------------------------------
+//Esta funcion realiza los calculos de cuantos dias de vida tiene un individuo 
+int DiasDeVida(int ano_actual, int mes_actual, int dia_actual, int ano, int mes, int dia, int Meses[]){
+	
+	int dias_nacimiento_actual, dias_nacimiento, dias_actual;
+
+	dias_nacimiento_actual= NacimientoHastaActualidad(ano_actual,ano);
+	/*La funcion NacimientoHastaActualidad determina cuantos dias pasaron desde que el individuo nacio
+	  hasta la actualidad sin tener en cuenta los dias que pasaron el año que nacio y los 
+	  dias que han pasado del año actual*/
+	dias_nacimiento= AnoNacimiento(ano,mes,dia,Meses);
+	//La funcion AnoNacimiento calcula los dias que han pasado desde que el individuo nacio hasta que termino dicho año de nacimiento
+	dias_actual= AnoActual(ano_actual,mes_actual,dia_actual,Meses);
+	//La funcion AnoActual calcula los dias que lleva el año actual
+		
+	//Por lo que la suma de esas tres cantidades da como resultado todos los dias que lleva de vida	
+	return (dias_nacimiento_actual+dias_nacimiento+dias_actual);
+}
+//-----------------------------------------
+	int NacimientoHastaActualidad(int ano_actual, int ano){
+		
+		int total, Primer_ano_bisiesto=ano+1, Ultimo_ano_bisiesto=ano_actual-1, Dias_Bisiestos;
+		
+		while(Bisiesto(Primer_ano_bisiesto) == false){ //Encontramos el primer año bisiesto que se vivio
+			Primer_ano_bisiesto++;
+		}
+	
+		while(Bisiesto(Ultimo_ano_bisiesto) == false){ //Encontramos el ultimo año bisiesto que se vivio
+			Ultimo_ano_bisiesto--;
+		}	
+		
+		Dias_Bisiestos= ((Ultimo_ano_bisiesto-Primer_ano_bisiesto)/4)+1; 
+		
+		/*Dias_Bisiestos no es mas que la cantidad de años bisiestos que ha vivido el individuo
+		 eso reflejara en la cuenta un dia mas por cada uno de estos años (cabe destacar que en 
+		 esta cuenta no se valora si el año actual es bisiesto o si el año en que nacio era bisiesto)*/
+		
+		total=(((ano_actual-1)-ano)*365)+Dias_Bisiestos;
+		
+		return total;
+	}
+//-----------------------------------------
+	int AnoNacimiento(int ano, int mes, int dia, int Meses[]){
+		
+		int total,control;
+		//En total se va guardando la cuenta de todos los dias 
+		
+		if(Bisiesto(ano)==true){ //Si resulta que el año en que nacio era bisiesto el valor maximo de febreo aumenta a 29
+			Meses[1]=29;
+		}
+		else{					  //De no ser asi se mantiene en 28
+			Meses[1]=28;
+		}
+		
+		total= Meses[mes-1]-dia; //Se suman a la cuenta los dias que pudieron pasar en el mes de nacimiento 
+		
+		for(control=mes;control<=11;control++){	//Se suman a la cuenta los dias que pasaron en el resto de meses que el individuo si vivio completamente (de ese año de nacimiento)
+			total= total+Meses[control];	
+		}
+		
+		return total;
+	}
+//-----------------------------------------
+	int AnoActual(int ano_actual, int mes_actual, int dia_actual, int Meses[]){
+		int total,control;
+		
+		if(Bisiesto(ano_actual)==true){ //Si resulta que el año en que nacio era bisiesto el valor maximo de febreo aumenta a 29
+			Meses[1]=29;
+		}
+		else{							//De no ser asi se mantiene en 28
+			Meses[1]=28;
+		}
+		
+		total= dia_actual; //Se suman a la cuenta los dias que van del mes actual
+		
+		for(control=0;control<mes_actual-1;control++){	//Se suma a la cuenta los dias que van del año (sin tener en cuenta el mes actual)
+			total= total+Meses[control];	
+		}
+		
+		return total;	
+	}
+//------------------------------------------
+//Esta funcion recibe un año y verifica si es bisiesto o no
+bool Bisiesto(int ano){
+	
+	if(ano%4==0){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+//-----------------------------------------
+//Esta funcion le asigna los dias respectivos a cada mes
+bool EstablecerMeses(int Meses[]){
+	Meses[0]=31; //Enero
+	Meses[1]=28; //Febrero(no bisiesto)
+	Meses[2]=31; //Marzo
+	Meses[3]=30; //Abril
+	Meses[4]=31; //Mayo
+	Meses[5]=30; //Junio
+	Meses[6]=31; //Julio
+	Meses[7]=31; //Agosto
+	Meses[8]=30; //Septiembre
+	Meses[9]=31; //Octubre
+	Meses[10]=30; //Noviembre
+	Meses[11]=31; //Diciembre
+}
+//------------------------------------------
+//Esta funcion le asigna los valores de 0 (false) a cada uno de los elementos del vector (o sea los signos zodiacales)
+void SignosDeZodiaco(int Signos[]){
+	Signos[0]=0; //aries
+	Signos[1]=0; //tauro
+	Signos[2]=0; //geminis
+	Signos[3]=0; //cancer
+	Signos[4]=0; //leo
+	Signos[5]=0; //virgo
+	Signos[6]=0; //libra
+	Signos[7]=0; //escorpio
+	Signos[8]=0; //sagitario
+	Signos[9]=0; //capricornio
+	Signos[10]=0; //acuario
+	Signos[11]=0; //piscis
+	
+}
+//-----------------------------------------
+//Esta funcion le asigna el valor de 1 (true) al signo que sea el correcto dependiendo del mes y dia de nacimiento
+void Zodiaco(int mes, int dia, int Signos[]){
+
+
+	switch(mes){
+		case 0:{ //Si nacio en ENERO puede ser:
+				if(dia>=1 and dia<=19){
+					Signos[9]=1;//capricornio
+				}
+				else{
+					Signos[10]=1;//acuario
+				}
+			break;
+		}
+		case 1:{ //Si nacio en FEBRERO puede ser:
+				if(dia>=1 and dia<=19){
+					Signos[10]=1;//acuario
+				}
+				else{
+					Signos[11]=1;//piscis
+				}
+			break;
+		}
+		case 2:{ //Si nacio en MARZO puede ser:
+				if(dia>=1 and dia<=20){
+					Signos[11]=1;//piscis
+				}
+				else{
+					Signos[0]=1;//aries
+				}
+			break;
+		}
+		case 3:{ //Si nacio en ABRIL puede ser:
+				if(dia>=1 and dia<=20){
+					Signos[0]=1;//aries
+				}
+				else{
+					Signos[1]=1;//tauro
+				}
+			break;
+		}
+		case 4:{ //Si nacio en MAYO puede ser:
+				if(dia>=1 and dia<=21){
+					Signos[1]=1;//tauro
+				}
+				else{
+					Signos[2]=1;//geminis
+				}
+			break;
+		}
+		case 5:{ //Si nacio en JUNIO puede ser:
+				if(dia>=1 and dia<=21){
+					Signos[2]=1;//geminis
+				}
+				else{
+					Signos[3]=1;//cancer
+				}
+			break;
+		}
+		case 6:{ //Si nacio en JULIO puede ser:
+				if(dia>=1 and dia<=23){
+					Signos[3]=1;//cancer
+				}
+				else{
+					Signos[4]=1;//leo
+				}
+			break;
+		}
+		case 7:{ //Si nacio en AGOSTO puede ser:	
+				if(dia>=1 and dia<=23){
+					Signos[4]=1;//leo
+				}
+				else{
+					Signos[5]=1;//virgo
+				}
+			break;
+		}
+		case 8:{ //Si nacio en SEPTIEMBRE puede ser:
+				if(dia>=1 and dia<=22){
+					Signos[5]=1;//virgo
+				}
+				else{
+					Signos[6]=1;//libra
+				}
+			break;
+		}
+		case 9:{ //Si nacio en OCTUBRE puede ser:
+				if(dia>=1 and dia<=22){
+					Signos[6]=1;//libra
+				}
+				else{
+					Signos[7]=1;//escorpio
+				}
+			break;
+		}
+		case 10:{ //Si nacio en NOVIEMBRE puede ser:
+				if(dia>=1 and dia <=22){
+					Signos[7]=1;//escorpio
+				}
+				else{
+					Signos[8]=1;//sagitario
+				}
+			break;
+		}
+		case 11:{ //Si nacio en DICIEMBRE puede ser:
+				if(dia>=1 and dia<=21){
+					Signos[8]=1;//sagitario
+				}
+				else{
+					Signos[9]=1;//capricornio
+				}
+			break;
+		}		
+	}
+						
+}
+//-----------------------------------------
+//Esta funcion le muestra cual es su signo zodiacal
+void MostrarSigno(int signo[]){
+	int control;
+	
+		for(control=0;control<=11;control++){  //Se recorre el vector donde estan los signos	
+			if(signo[control]==1){					//El signo que valga 1 (true) sera el signo zodiacal del individuo
+				
+				switch(control){
+					case 0:printf("\n       Su signo es ARIES.");break;
+					case 1:printf("\n       Su signo es TAURO.");break;
+					case 2:printf("\n       Su signo es GEMINIS.");break;
+					case 3:printf("\n       Su signo es CANCER.");break;
+					case 4:printf("\n       Su signo es LEO.");break;
+					case 5:printf("\n       Su signo es VIRGO.");break;
+					case 6:printf("\n       Su signo es LIBRA.");break;
+					case 7:printf("\n       Su signo es ESCORPIO.");break;
+					case 8:printf("\n       Su signo es SAGITARIO.");break;
+					case 9:printf("\n       Su signo es CAPRICORNIO.");break;
+					case 10:printf("\n       Su signo es ACUARIO.");break;
+					case 11:printf("\n       Su signo es PISCIS.");break;		
+				}
+			}
+		}
+}
