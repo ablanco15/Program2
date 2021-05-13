@@ -1,7 +1,10 @@
+#include<iostream>
 #include<stdio.h>
 #include<stdbool.h>
 #include<cstdlib>
-#include <locale.h>
+#include <locale.h>	
+
+using namespace std;
 
 //***********************
 int DiasDeVida(int ano_actual, int mes_actual, int dia_actual, int ano, int mes, int dia, int Meses[]);
@@ -266,24 +269,23 @@ void Zodiaco(int mes, int dia, int Signos[]){
 //-----------------------------------------
 //Esta funcion le muestra cual es su signo zodiacal
 void MostrarSigno(int signo[]){
-	int control;
-	
+	int control; 
 		for(control=0;control<=11;control++){  //Se recorre el vector donde estan los signos	
 			if(signo[control]==1){					//El signo que valga 1 (true) sera el signo zodiacal del individuo
 				
 				switch(control){
-					case 0:printf("\n       Su signo es ARIES.");break;
-					case 1:printf("\n       Su signo es TAURO.");break;
-					case 2:printf("\n       Su signo es GEMINIS.");break;
-					case 3:printf("\n       Su signo es CANCER.");break;
-					case 4:printf("\n       Su signo es LEO.");break;
-					case 5:printf("\n       Su signo es VIRGO.");break;
-					case 6:printf("\n       Su signo es LIBRA.");break;
-					case 7:printf("\n       Su signo es ESCORPIO.");break;
-					case 8:printf("\n       Su signo es SAGITARIO.");break;
-					case 9:printf("\n       Su signo es CAPRICORNIO.");break;
-					case 10:printf("\n       Su signo es ACUARIO.");break;
-					case 11:printf("\n       Su signo es PISCIS.");break;		
+					case 0:cout<<"\n       Su signo es ARIES.";break;
+					case 1:cout<<"\n       Su signo es TAURO.";break;
+					case 2:cout<<"\n       Su signo es GEMINIS.";break;
+					case 3:cout<<"\n       Su signo es CANCER.";break;
+					case 4:cout<<"\n       Su signo es LEO.";break;
+					case 5:cout<<"\n       Su signo es VIRGO.";break;
+					case 6:cout<<"\n       Su signo es LIBRA.";break;
+					case 7:cout<<"\n       Su signo es ESCORPIO.";break;
+					case 8:cout<<"\n       Su signo es SAGITARIO.";break;
+					case 9:cout<<"\n       Su signo es CAPRICORNIO.";break;
+					case 10:cout<<"\n       Su signo es ACUARIO.";break;
+					case 11:cout<<"\n       Su signo es PISCIS.";break;		
 				}
 			}
 		}
