@@ -1,20 +1,23 @@
 //TALLER NUMERO 1
 
+#include<iostream>
 #include<stdio.h>
 #include<stdbool.h>
 #include<cstdlib>
 #include"LibreriaTaller.h"
 #include <locale.h>		//Esta libreria nos permite usar la funcion setlocale, funcion que nos permite usar la "ñ"
 //*****************************************
+using namespace std;
 void Encabezado();
 void PantallaPrincipal();
 void PedirDatos(int *ano_actual, int *mes_actual, int *dia_actual, int *ano, int *mes, int *dia, int Meses[]);
 //*****************************************
+
 int main(){
 	
 	setlocale(LC_ALL, "spanish");
 	
-	int ano, ano_actual, mes, mes_actual, dia, dia_actual,control,opcion=0;
+	int ano, ano_actual, mes, mes_actual, dia, dia_actual,control,opcion=0,num1;
 								//(ano,mes,dia) = Fecha de nacimiento
 								//(ano_actual,mes_actual,dia_actual) = Fecha del dia en que usas el programa
 	int Meses[12];  			//Este es un vector donde cada elemento sera un mes, asi sabremos cuantos dias hay por mes
@@ -26,13 +29,14 @@ int main(){
 	
 	while(opcion<1 or opcion>3){		//Entramos al menu
 			Encabezado();
-			printf("\n\n\n      MENU.");
-			printf("\n\n       0) Volver a la pantalla principal.");	//Volvemos a la pantalla principal del programa
-			printf("\n       1) Dar datos.");							//El programa recibe la fecha del dia actual y la fecha de nacimiento del individuo
-			printf("\n       2) Mostrar resultado.");					//Con los datos introducidos anteriormente se hacen los calculos necesarios
-			printf("\n       3) Salir del programa.");								
-			printf("\n       *");
-			scanf("%i",&opcion);
+			cout<<"\n\n\n      MENU.";
+			cout<<"\n\n       0) Volver a la pantalla principal.";	//Volvemos a la pantalla principal del programa
+			cout<<"\n       1) Dar datos.";							//El programa recibe la fecha del dia actual y la fecha de nacimiento del individuo
+			cout<<"\n       2) Mostrar resultado.";					//Con los datos introducidos anteriormente se hacen los calculos necesarios
+			cout<<"\n       3) Salir del programa.";								
+			cout<<"\n       *";
+			cin>>opcion;
+			
 			system("cls");
 			switch(opcion){
 				case 0:{
@@ -50,11 +54,11 @@ int main(){
 				}
 				case 2:{
 						Encabezado();
-						printf("\n\n\n       Desde (%i/%i/%i) hasta (%i/%i/%i).",dia,mes,ano,dia_actual,mes_actual,ano_actual);
-						printf("\n       Usted ha estado %i dias en esta vida.", DiasDeVida(ano_actual,mes_actual,dia_actual,ano,mes,dia,Meses)); //La funcion DiasDeVida es la realiza los calculos
+						cout<<"\n\n\n       Desde "<<dia<<"/"<<mes<<"/"<<ano<<" hasta "<<dia_actual<<"/"<<mes_actual<<"/"<<ano_actual;
+						cout<<"\n       Usted ha estado "<<DiasDeVida(ano_actual,mes_actual,dia_actual,ano,mes,dia,Meses)<<" dias en esta vida."; //La funcion DiasDeVida es la realiza los calculos
 						Zodiaco(mes-1,dia,signo);																								  //Se determina su signo zodiacal
 						MostrarSigno(signo);																									  //Se muestra su signo zodiacal
-						printf("\n\n       ");
+						cout<<"\n\n       ";
 						system("pause");
 						system("cls");			
 						opcion=-1;
@@ -72,13 +76,14 @@ void PedirDatos(int *ano_actual, int *mes_actual, int *dia_actual, int *ano, int
 	
 	do{
 		Encabezado();
-		printf("\n\n\n          Introduzca la fecha actual: ");
-		printf("\n\n          Año: ");
-		scanf("%i",ano_actual);
-		printf("          Mes: ");
-		scanf("%i",mes_actual);
-		printf("          Dia: ");
-		scanf("%i",dia_actual);
+		cout<<"\n\n\n          Introduzca la fecha actual: ";
+		cout<<"\n\n          Año: ";
+		cin>>*ano_actual;
+		
+		cout<<"          Mes: ";
+		cin>>*mes_actual;
+		cout<<"          Dia: ";
+		cin>>*dia_actual;
 		system("cls");
 			if(Bisiesto(*ano_actual)==true){			//En caso de que el año actual sea bisiesto se abre la posibilidad de que el dia se 29 de febrero
 				Meses[1]=29;
@@ -92,13 +97,13 @@ void PedirDatos(int *ano_actual, int *mes_actual, int *dia_actual, int *ano, int
 
 	do{
 		Encabezado();
-		printf("\n\n\n          Introduzca la fecha de su nacimiento: ");
-		printf("\n\n          Año: ");
-		scanf("%i",ano);
-		printf("          Mes: ");
-		scanf("%i",mes);
-		printf("          Dia: ");
-		scanf("%i",dia);
+		cout<<"\n\n\n          Introduzca la fecha de su nacimiento: ";
+		cout<<"\n\n          Año: ";
+		cin>>*ano;
+		cout<<"          Mes: ";
+		cin>>*mes;
+		cout<<"          Dia: ";
+		cin>>*dia;
 		system("cls");
 			if(Bisiesto(*ano)==true){
 				Meses[1]=29;
@@ -111,27 +116,27 @@ void PedirDatos(int *ano_actual, int *mes_actual, int *dia_actual, int *ano, int
 }
 //-----------------------------------------------------------------
 void Encabezado(){
-	printf("\n\n   ------------------------------------------------   ");
-	printf("\n   -------- Taller Numero uno de Program 2 --------");
-	printf("\n   ------------------------------------------------");
+	cout<<"\n\n   ------------------------------------------------   ";
+	cout<<"\n   -------- Taller Numero uno de Program 2 --------";
+	cout<<"\n   ------------------------------------------------";
 }
 //-----------------------------------------------------------------
 void PantallaPrincipal(){
-	printf("\n\n   ------------------------------------------------   ");
-	printf("\n   -------- Taller Numero uno de Program 2---------   ");
-	printf("\n   ------------------------------------------------   ");
-	printf("\n   ------------------------------------------------   ");
-	printf("\n   --------------- Calcular -----------------------   ");
-	printf("\n   ---------------------- Años --------------------   ");
-	printf("\n   ------------------------- de -------------------   ");
-	printf("\n   -------------------- Vida ----------------------   ");
-	printf("\n   ------------------------------------------------   ");
-	printf("\n   ------------------------------------------------   ");
-	printf("\n   -------------------------- Realizado por:-------   ");
-	printf("\n   ---------------------------- Blanco Alfonso-----   ");
-	printf("\n   ---------------------------- Borges Sebastian---   ");
-	printf("\n   ------------------------------------------------   ");
-	printf("\n   ");
+	cout<<"\n\n   ------------------------------------------------   ";
+	cout<<"\n   -------- Taller Numero uno de Program 2---------   ";
+	cout<<"\n   ------------------------------------------------   ";
+	cout<<"\n   ------------------------------------------------   ";
+	cout<<"\n   --------------- Calcular -----------------------   ";
+	cout<<"\n   ---------------------- Años --------------------   ";
+	cout<<"\n   ------------------------- de -------------------   ";
+	cout<<"\n   -------------------- Vida ----------------------   ";
+	cout<<"\n   ------------------------------------------------   ";
+	cout<<"\n   ------------------------------------------------   ";
+	cout<<"\n   -------------------------- Realizado por:-------   ";
+	cout<<"\n   ---------------------------- Blanco Alfonso-----   ";
+	cout<<"\n   ---------------------------- Borges Sebastian---   ";
+	cout<<"\n   ------------------------------------------------   ";
+	cout<<"\n   ";
 
 
 }
